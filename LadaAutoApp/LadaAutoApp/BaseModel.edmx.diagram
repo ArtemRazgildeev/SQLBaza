@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2c9eb4ad9756400d8c1ec49aacd770e2" Name="Diagram1">
+        <EntityTypeShape EntityType="ladaAutoModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ladaAutoModel.Автомобили" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ladaAutoModel.Автосалон" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ladaAutoModel.Клиенты" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ladaAutoModel.Менеджер" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ladaAutoModel.Продажи" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="ladaAutoModel.FK_Продажи_Автомобили" ManuallyRouted="false" />
+        <AssociationConnector Association="ladaAutoModel.FK_Продажи_Автосалон" ManuallyRouted="false" />
+        <AssociationConnector Association="ladaAutoModel.FK_Продажи_Клиенты" ManuallyRouted="false" />
+        <AssociationConnector Association="ladaAutoModel.FK_Продажи_Менеджер" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
