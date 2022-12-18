@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище ladaAutoModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Автомобили">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Модель" Type="nvarchar" MaxLength="100" />
+          <Property Name="Цвет" Type="nvarchar" MaxLength="100" />
+          <Property Name="Комплектации" Type="nvarchar" MaxLength="100" />
+          <Property Name="Цена" Type="money" />
+        </EntityType>
+        <EntityType Name="Автосалон">
+          <Key>
+            <PropertyRef Name="Код автосалона" />
+          </Key>
+          <Property Name="Код автосалона" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название автосалона" Type="nvarchar" MaxLength="100" />
+          <Property Name="Адрес автосалона" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Клиенты">
+          <Key>
+            <PropertyRef Name="Код клиента" />
+          </Key>
+          <Property Name="Код клиента" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="100" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="100" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="100" />
+          <Property Name="Телефон" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Менеджер">
+          <Key>
+            <PropertyRef Name="Код менеджера" />
+          </Key>
+          <Property Name="Код менеджера" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="100" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="100" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Продажи">
+          <Key>
+            <PropertyRef Name="Код продажи" />
+          </Key>
+          <Property Name="Код продажи" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Код машины" Type="int" />
+          <Property Name="Клиент" Type="int" />
+          <Property Name="Код менеджера" Type="int" />
+          <Property Name="Код автосалона" Type="int" />
+        </EntityType>
+        <Association Name="FK_Продажи_Автомобили">
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="0..1" />
+          <End Role="Продажи" Type="Self.Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Автомобили">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="Код машины" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи_Автосалон">
+          <End Role="Автосалон" Type="Self.Автосалон" Multiplicity="0..1" />
+          <End Role="Продажи" Type="Self.Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Автосалон">
+              <PropertyRef Name="Код автосалона" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="Код автосалона" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи_Клиенты">
+          <End Role="Клиенты" Type="Self.Клиенты" Multiplicity="0..1" />
+          <End Role="Продажи" Type="Self.Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Клиенты">
+              <PropertyRef Name="Код клиента" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="Клиент" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи_Менеджер">
+          <End Role="Менеджер" Type="Self.Менеджер" Multiplicity="0..1" />
+          <End Role="Продажи" Type="Self.Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Менеджер">
+              <PropertyRef Name="Код менеджера" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="Код менеджера" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ladaAutoModelContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Автомобили" EntityType="Self.Автомобили" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Автосалон" EntityType="Self.Автосалон" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Клиенты" EntityType="Self.Клиенты" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Менеджер" EntityType="Self.Менеджер" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Продажи" EntityType="Self.Продажи" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Продажи_Автомобили" Association="Self.FK_Продажи_Автомобили">
+            <End Role="Автомобили" EntitySet="Автомобили" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи_Автосалон" Association="Self.FK_Продажи_Автосалон">
+            <End Role="Автосалон" EntitySet="Автосалон" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи_Клиенты" Association="Self.FK_Продажи_Клиенты">
+            <End Role="Клиенты" EntitySet="Клиенты" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи_Менеджер" Association="Self.FK_Продажи_Менеджер">
+            <End Role="Менеджер" EntitySet="Менеджер" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ladaAutoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Автомобили">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Модель" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Цвет" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Комплектации" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Цена" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Продажи" Relationship="Self.FK_Продажи_Автомобили" FromRole="Автомобили" ToRole="Продажи" />
+        </EntityType>
+        <EntityType Name="Автосалон">
+          <Key>
+            <PropertyRef Name="Код_автосалона" />
+          </Key>
+          <Property Name="Код_автосалона" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название_автосалона" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Адрес_автосалона" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Продажи" Relationship="Self.FK_Продажи_Автосалон" FromRole="Автосалон" ToRole="Продажи" />
+        </EntityType>
+        <EntityType Name="Клиенты">
+          <Key>
+            <PropertyRef Name="Код_клиента" />
+          </Key>
+          <Property Name="Код_клиента" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Имя" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Отчество" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Телефон" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Продажи" Relationship="Self.FK_Продажи_Клиенты" FromRole="Клиенты" ToRole="Продажи" />
+        </EntityType>
+        <EntityType Name="Менеджер">
+          <Key>
+            <PropertyRef Name="Код_менеджера" />
+          </Key>
+          <Property Name="Код_менеджера" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Имя" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Отчество" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Продажи" Relationship="Self.FK_Продажи_Менеджер" FromRole="Менеджер" ToRole="Продажи" />
+        </EntityType>
+        <EntityType Name="Продажи">
+          <Key>
+            <PropertyRef Name="Код_продажи" />
+          </Key>
+          <Property Name="Код_продажи" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Код_машины" Type="Int32" />
+          <Property Name="Клиент" Type="Int32" />
+          <Property Name="Код_менеджера" Type="Int32" />
+          <Property Name="Код_автосалона" Type="Int32" />
+          <NavigationProperty Name="Автомобили" Relationship="Self.FK_Продажи_Автомобили" FromRole="Продажи" ToRole="Автомобили" />
+          <NavigationProperty Name="Автосалон" Relationship="Self.FK_Продажи_Автосалон" FromRole="Продажи" ToRole="Автосалон" />
+          <NavigationProperty Name="Клиенты" Relationship="Self.FK_Продажи_Клиенты" FromRole="Продажи" ToRole="Клиенты" />
+          <NavigationProperty Name="Менеджер" Relationship="Self.FK_Продажи_Менеджер" FromRole="Продажи" ToRole="Менеджер" />
+        </EntityType>
+        <Association Name="FK_Продажи_Автомобили">
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="0..1" />
+          <End Role="Продажи" Type="Self.Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Автомобили">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="Код_машины" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи_Автосалон">
+          <End Role="Автосалон" Type="Self.Автосалон" Multiplicity="0..1" />
+          <End Role="Продажи" Type="Self.Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Автосалон">
+              <PropertyRef Name="Код_автосалона" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="Код_автосалона" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи_Клиенты">
+          <End Role="Клиенты" Type="Self.Клиенты" Multiplicity="0..1" />
+          <End Role="Продажи" Type="Self.Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Клиенты">
+              <PropertyRef Name="Код_клиента" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="Клиент" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи_Менеджер">
+          <End Role="Менеджер" Type="Self.Менеджер" Multiplicity="0..1" />
+          <End Role="Продажи" Type="Self.Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Менеджер">
+              <PropertyRef Name="Код_менеджера" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="Код_менеджера" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ladaAutoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Автомобили" EntityType="Self.Автомобили" />
+          <EntitySet Name="Автосалон" EntityType="Self.Автосалон" />
+          <EntitySet Name="Клиенты" EntityType="Self.Клиенты" />
+          <EntitySet Name="Менеджер" EntityType="Self.Менеджер" />
+          <EntitySet Name="Продажи" EntityType="Self.Продажи" />
+          <AssociationSet Name="FK_Продажи_Автомобили" Association="Self.FK_Продажи_Автомобили">
+            <End Role="Автомобили" EntitySet="Автомобили" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи_Автосалон" Association="Self.FK_Продажи_Автосалон">
+            <End Role="Автосалон" EntitySet="Автосалон" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи_Клиенты" Association="Self.FK_Продажи_Клиенты">
+            <End Role="Клиенты" EntitySet="Клиенты" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи_Менеджер" Association="Self.FK_Продажи_Менеджер">
+            <End Role="Менеджер" EntitySet="Менеджер" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ladaAutoModelContainer" CdmEntityContainer="ladaAutoEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ladaAutoModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Автомобили">
+            <EntityTypeMapping TypeName="ladaAutoModel.Автомобили">
+              <MappingFragment StoreEntitySet="Автомобили">
+                <ScalarProperty Name="Код" ColumnName="Код" />
+                <ScalarProperty Name="Модель" ColumnName="Модель" />
+                <ScalarProperty Name="Цвет" ColumnName="Цвет" />
+                <ScalarProperty Name="Комплектации" ColumnName="Комплектации" />
+                <ScalarProperty Name="Цена" ColumnName="Цена" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Автосалон">
+            <EntityTypeMapping TypeName="ladaAutoModel.Автосалон">
+              <MappingFragment StoreEntitySet="Автосалон">
+                <ScalarProperty Name="Код_автосалона" ColumnName="Код автосалона" />
+                <ScalarProperty Name="Название_автосалона" ColumnName="Название автосалона" />
+                <ScalarProperty Name="Адрес_автосалона" ColumnName="Адрес автосалона" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Клиенты">
+            <EntityTypeMapping TypeName="ladaAutoModel.Клиенты">
+              <MappingFragment StoreEntitySet="Клиенты">
+                <ScalarProperty Name="Код_клиента" ColumnName="Код клиента" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Менеджер">
+            <EntityTypeMapping TypeName="ladaAutoModel.Менеджер">
+              <MappingFragment StoreEntitySet="Менеджер">
+                <ScalarProperty Name="Код_менеджера" ColumnName="Код менеджера" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Продажи">
+            <EntityTypeMapping TypeName="ladaAutoModel.Продажи">
+              <MappingFragment StoreEntitySet="Продажи">
+                <ScalarProperty Name="Код_продажи" ColumnName="Код продажи" />
+                <ScalarProperty Name="Код_машины" ColumnName="Код машины" />
+                <ScalarProperty Name="Клиент" ColumnName="Клиент" />
+                <ScalarProperty Name="Код_менеджера" ColumnName="Код менеджера" />
+                <ScalarProperty Name="Код_автосалона" ColumnName="Код автосалона" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
